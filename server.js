@@ -35,16 +35,22 @@ require("./controllers/posts.js")(app);
 require("./controllers/comments.js")(app);
 require("./controllers/auth.js")(app);
 
-// Routes
-app.get("/", (req, res) => {
-  text = "Hello World";
-  res.render("home", { text });
-});
+var checkAuth = (req, res, next) => {
+  console.log("Checking authentication");
+  if (
+    typeof req.cookies.nToken === "undefined" ||
+    req.cookies.nToken === null
+  ) {
+    req.user = null;
+  } else {
+    var token = req.cookies.nToken;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    req.user = decodedToken.payload;
+  }
 
-app.get("/posts/new", function (req, res) {
-  var currentUser = req.user;
-  return res.render("posts-new", { currentUser });
-});
+  next();
+};
+app.use(checkAuth);
 
 module.exports = app;
 
