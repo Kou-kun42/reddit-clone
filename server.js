@@ -24,9 +24,10 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
-require("./controllers/posts.js")(app);
 // Set db
 require("./data/reddit-db");
+require("./controllers/posts.js")(app);
+require("./controllers/comments.js")(app);
 
 // Routes
 app.get("/", (req, res) => {
