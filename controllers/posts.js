@@ -46,12 +46,9 @@ module.exports = (app) => {
   // SHOW
   app.get("/posts/:id", function (req, res) {
     var currentUser = req.user;
-    // LOOK UP THE POST
-
     Post.findById(req.params.id)
+      .populate("comments")
       .lean()
-      .populate({ path: "comments", populate: { path: "author" } })
-      .populate("author")
       .then((post) => {
         res.render("posts-show", { post, currentUser });
       })
@@ -65,7 +62,6 @@ module.exports = (app) => {
     var currentUser = req.user;
     Post.find({ subreddit: req.params.subreddit })
       .lean()
-      .populate("author")
       .then((posts) => {
         res.render("posts-index", { posts, currentUser });
       })
