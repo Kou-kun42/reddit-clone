@@ -1,3 +1,4 @@
+const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 module.exports = (app) => {
@@ -30,6 +31,11 @@ module.exports = (app) => {
   app.get("/logout", (req, res) => {
     res.clearCookie("nToken");
     res.redirect("/");
+  });
+
+  // LOGIN FORM
+  app.get("/login", (req, res) => {
+    res.render("login");
   });
 
   // LOGIN
