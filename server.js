@@ -31,9 +31,10 @@ app.set("view engine", "handlebars");
 
 // Set db
 require("./data/reddit-db");
-require("./controllers/posts.js")(app);
+require("./controllers/posts")(app);
 require("./controllers/comments.js")(app);
 require("./controllers/auth.js")(app);
+require("./controllers/replies.js")(app);
 
 var checkAuth = (req, res, next) => {
   console.log("Checking authentication");
